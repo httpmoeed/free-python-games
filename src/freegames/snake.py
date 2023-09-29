@@ -35,9 +35,8 @@ def move():
     head.move(aim)
 
     if not inside(head) or head in snake:
-        square(head.x, head.y, 9, 'red')
         update()
-        return
+        head = snake[-1].copy()
 
     snake.append(head)
 
@@ -57,8 +56,17 @@ def move():
     update()
     ontimer(move, 100)
 
+def move_food():
+    food.x = randrange(-15, 15) *10
+    food.y = randrange(-15, 15) *10
+    ontimer(move_food, 1000)
+
+
+def on_click(x, y):
+    change(x - snake[-1].x, y - snake[-1].y)
 
 setup(420, 420, 370, 0)
+move_food()
 hideturtle()
 tracer(False)
 listen()
@@ -66,5 +74,8 @@ onkey(lambda: change(10, 0), 'Right')
 onkey(lambda: change(-10, 0), 'Left')
 onkey(lambda: change(0, 10), 'Up')
 onkey(lambda: change(0, -10), 'Down')
+
+
+onscreenclick(on_click)
 move()
 done()
